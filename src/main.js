@@ -1,13 +1,16 @@
-import Vue from 'vue'
-import './plugins/axios'
-import App from './App.vue'
-import router from './router'
-import vuetify from './plugins/vuetify';
+import Vue from "vue";
+import VueAxios from "vue-axios";
+import { securedAxiosInstance, plainAxiosInstance } from "./backend/axios";
+import App from "./App.vue";
+import router from "./router";
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+Vue.use(VueAxios, {
+  secured: securedAxiosInstance,
+  plain: plainAxiosInstance
+});
 
 new Vue({
   router,
-  vuetify,
   render: h => h(App)
-}).$mount('#app')
+}).$mount("#app");
