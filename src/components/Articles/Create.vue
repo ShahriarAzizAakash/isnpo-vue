@@ -151,6 +151,7 @@ export default {
   },
   methods: {
     create() {
+      event.preventDefault();
       const article = {
         title: this.title,
         description: this.description,
@@ -165,7 +166,10 @@ export default {
       };
       this.$http.secured
         .post("/api/v1/articles", { article: article })
-        .then(response => this.createSuccessful(response))
+        .then(response => {
+          alert(response);
+          this.createSuccessful(response);
+        })
         .catch(error => this.createFailed(error));
     },
     createSuccessful(response) {

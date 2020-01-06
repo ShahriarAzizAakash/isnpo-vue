@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const API_URL = "https://isnpo-api.herokuapp.com";
+//const API_URL = "https://isnpo-api.herokuapp.com";
 
-// const API_URL = "http://localhost:3000";
+const API_URL = "http://localhost:3000";
 const securedAxiosInstance = axios.create({
   baseURL: API_URL,
   withCredentials: true,
