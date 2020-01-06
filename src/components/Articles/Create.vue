@@ -116,7 +116,7 @@
         </form>
       </div>
 
-      <div class="col render">
+      <div class="col render" v-if="!isMobile()">
         <div v-if="title">
           <h3 class="card-title">{{title}}</h3>
           <hr />
@@ -180,6 +180,17 @@ export default {
   },
 
   methods: {
+    isMobile() {
+      if (
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        )
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     create() {
       event.preventDefault();
       const article = {
