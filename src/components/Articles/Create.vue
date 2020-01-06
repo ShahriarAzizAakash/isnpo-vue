@@ -1,16 +1,17 @@
 <template>
   <div class="container">
-    <div class="card">
-      <div class="card-body">
+    <div class="row">
+      <div class="col">
         <form class="form-create" @submit.prevent="create">
           <h3 class="card-title">Create Article</h3>
           <hr />
           <br />
           <div class="alert alert-danger" v-if="error">{{ error }}</div>
+          <div class="alert alert-success" v-if="sucessful">{{ sucessful }}</div>
           <div class="form-group">
             <label for="title">Title</label>
             <input
-              v-model="title"
+              v-model.lazy="title"
               type="title"
               class="form-control"
               id="title"
@@ -21,7 +22,7 @@
           <div class="form-group">
             <label for="description">Description</label>
             <textarea
-              v-model="description"
+              v-model.lazy="description"
               type="text"
               rows="4"
               class="form-control"
@@ -32,18 +33,12 @@
           </div>
           <div class="form-group">
             <label for="deadline">Deadline</label>
-            <input
-              v-model="deadline"
-              type="date"
-              class="form-control"
-              id="deadline"
-              required
-            />
+            <input v-model="deadline" type="date" class="form-control" id="deadline" required />
           </div>
           <div class="form-group">
             <label for="country">Country</label>
             <input
-              v-model="country"
+              v-model.lazy="country"
               type="country"
               class="form-control"
               id="country"
@@ -54,7 +49,7 @@
           <div class="form-group">
             <label for="typeofscholarship">Type of Scholarship</label>
             <input
-              v-model="typeofscholarship"
+              v-model.lazy="typeofscholarship"
               type="typeofscholarship"
               class="form-control"
               id="typeofscholarship"
@@ -65,7 +60,7 @@
           <div class="form-group">
             <label for="institute">Name of Institution</label>
             <input
-              v-model="institute"
+              v-model.lazy="institute"
               type="institute"
               class="form-control"
               id="institute"
@@ -76,7 +71,7 @@
           <div class="form-group">
             <label for="benefits">Benefits</label>
             <input
-              v-model="benefits"
+              v-model.lazy="benefits"
               type="text-area"
               class="form-control"
               id="benefits"
@@ -87,7 +82,7 @@
           <div class="form-group">
             <label for="eligibilities">Eligibilities</label>
             <input
-              v-model="eligibilities"
+              v-model.lazy="eligibilities"
               type="text-area"
               class="form-control"
               id="eligibilities"
@@ -98,7 +93,7 @@
           <div class="form-group">
             <label for="process">Process</label>
             <input
-              v-model="process"
+              v-model.lazy="process"
               type="text-area"
               class="form-control"
               id="process"
@@ -109,7 +104,7 @@
           <div class="form-group">
             <label for="url">URL</label>
             <input
-              v-model="url"
+              v-model.lazy="url"
               type="url"
               class="form-control"
               id="url"
@@ -119,6 +114,40 @@
           </div>
           <button type="submit" class="btn btn-primary mb-3">Submit</button>
         </form>
+      </div>
+
+      <div class="col render">
+        <div v-if="title">
+          <h3 class="card-title">{{title}}</h3>
+          <hr />
+        </div>
+        <div v-if="description">
+          <p>Description: {{description}}</p>
+        </div>
+        <div v-if="deadline">
+          <p>Deadline: {{deadline}}</p>
+        </div>
+        <div v-if="country">
+          <p>Country: {{country}}</p>
+        </div>
+        <div v-if="institute">
+          <p>Institute: {{institute}}</p>
+        </div>
+        <div v-if="typeofscholarship">
+          <p>Type of Scholarship: {{typeofscholarship}}</p>
+        </div>
+        <div v-if="benefits">
+          <p>Benefits: {{benefits}}</p>
+        </div>
+        <div v-if="eligibilities">
+          <p>Eligibilities: {{eligibilities}}</p>
+        </div>
+        <div v-if="process">
+          <p>Procedure: {{process}}</p>
+        </div>
+        <div v-if="url">
+          <p>Official Website: {{url}}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -149,6 +178,7 @@ export default {
   updated() {
     this.checkSignedIn();
   },
+
   methods: {
     create() {
       event.preventDefault();
@@ -167,15 +197,13 @@ export default {
       this.$http.secured
         .post("/api/v1/articles", { article: article })
         .then(response => {
-          alert(response);
           this.createSuccessful(response);
         })
         .catch(error => this.createFailed(error));
     },
     createSuccessful(response) {
-      console.log(response);
       if (response.status == 201 || response.status == 200) {
-        alert("Success! " + response.data.title + " Created!");
+        this.sucessful = "Success! " + response.data.title + " Created!";
       } else {
         this.createFailed(response);
         return;
@@ -203,6 +231,16 @@ export default {
   max-width: 500px;
   padding: 10% 15px;
   margin: 0 auto;
+  margin-top: 20px !important;
+  padding-top: 20px !important;
+}
+
+.render {
+  width: 70%;
+  max-width: 500px;
+  padding: 10% 15px;
+  margin: 0 auto;
+  padding-right: 10px !important;
   margin-top: 20px !important;
   padding-top: 20px !important;
 }
