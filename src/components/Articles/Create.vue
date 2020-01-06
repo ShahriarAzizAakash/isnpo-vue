@@ -164,26 +164,17 @@ export default {
         url: this.url
       };
       this.$http.secured
-        .post(
-          "/api/v1/articles",
-          { article: article },
-          {
-            headers: {
-              "X-CSRF-Token ": localStorage.csrf,
-              "Content-Type": "application/json"
-            }
-          }
-        )
+        .post("/api/v1/articles", { article: article })
         .then(response => this.createSuccessful(response))
         .catch(error => this.createFailed(error));
     },
     createSuccessful(response) {
       console.log(response);
-      if (response.data.status != 200 || response.data.status != 201) {
+      if (response.status == 201 || response.status == 200) {
+        alert("Success! " + response.data.title + " Created!");
+      } else {
         this.createFailed(response);
         return;
-      } else {
-        this.alert("Success!");
       }
     },
     createFailed(error) {
