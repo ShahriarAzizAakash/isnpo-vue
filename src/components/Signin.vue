@@ -66,10 +66,14 @@ export default {
       if (!response.data.csrf) {
         this.signinFailed(response);
         return;
+      }
+      localStorage.csrf = response.data.csrf;
+      localStorage.signedIn = true;
+      localStorage.admin = response.data.admin;
+      this.error = "";
+      if (response.data.admin) {
+        this.$router.replace("/article/new");
       } else {
-        localStorage.csrf = response.data.csrf;
-        localStorage.signedIn = true;
-        this.error = "";
         this.$router.replace("/articles");
       }
     },
@@ -82,7 +86,7 @@ export default {
     },
     checkSignedIn() {
       if (localStorage.signedIn) {
-        this.$router.replace("/articles");
+        this.$router.replace("/article/new");
       }
     }
   }

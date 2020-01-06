@@ -2,9 +2,9 @@
   <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
-        <router-link to="/" class="navbar-brand"
-          ><img src="../assets/logo.png" alt="ISNPO Logo" style="width: 120px"
-        /></router-link>
+        <router-link to="/" class="navbar-brand">
+          <img src="../assets/logo.png" alt="ISNPO Logo" style="width: 120px" />
+        </router-link>
         <button
           class="navbar-toggler"
           type="button"
@@ -21,14 +21,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <router-link to="/" class="nav-link" v-if="!signedIn()"
-                >Sign In</router-link
-              >
+              <router-link to="/" class="nav-link" v-if="!signedIn()">Sign In</router-link>
             </li>
             <li class="nav-item active">
-              <router-link to="/register" class="nav-link" v-if="!signedIn()"
-                >Sign Up</router-link
-              >
+              <router-link to="/register" class="nav-link" v-if="!signedIn()">Sign Up</router-link>
+            </li>
+            <li class="nav-item active">
+              <div class="nav-link btn" v-if="signedIn()" @click="signOut">Sign out</div>
             </li>
           </ul>
         </div>
@@ -52,16 +51,30 @@ export default {
     signedIn() {
       return localStorage.signedIn;
     },
+    // signOut() {
+    //   this.$http.secure
+    //     .delete("/logout")
+    //     .then(response => {
+    //       delete localStorage.csrf;
+    //       delete localStorage.signedIn;
+    //       this.$router.replace("/");
+    //       console.log("Clicked");
+    //       return response;
+    //     })
+    //     .catch(error => this.setError(error, "Cannot Sign Out"));
+    // }
     signOut() {
-      this.$http.secure
-        .delete("/logout")
-        .then(response => {
-          delete localStorage.csrf;
-          delete localStorage.signedIn;
-          this.$router.replace("/");
-          return response;
-        })
-        .catch(error => this.setError(error, "Cannot Sign Out"));
+      if (localStorage.signedIn) {
+        this.$http.secured
+          .delete("/logout")
+          .then(response => {
+            delete localStorage.csrf;
+            delete localStorage.signedIn;
+            this.$router.replace("/");
+            return response;
+          })
+          .catch(error => this.setError(error, "Cannot sign out"));
+      }
     }
   }
 };

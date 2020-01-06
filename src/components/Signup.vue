@@ -109,8 +109,13 @@ export default {
       } else {
         localStorage.csrf = response.data.csrf;
         localStorage.signedIn = true;
+        localStorage.admin = response.data.admin;
         this.error = "";
-        this.$router.replace("/articles");
+        if (response.data.admin) {
+          this.$router.replace("/article/new");
+        } else {
+          this.$router.replace("/articles");
+        }
       }
     },
     signinFailed(error) {
@@ -121,7 +126,9 @@ export default {
       delete localStorage.signedIn;
     },
     checkSignedIn() {
-      if (localStorage.signedIn) {
+      if (localStorage.signedIn && localStorage.admin) {
+        this.$router.replace("/articles/new");
+      } else {
         this.$router.replace("/articles");
       }
     }

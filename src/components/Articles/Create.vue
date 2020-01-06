@@ -20,9 +20,10 @@
           </div>
           <div class="form-group">
             <label for="description">Description</label>
-            <input
+            <textarea
               v-model="description"
-              type="text-area"
+              type="text"
+              rows="4"
               class="form-control"
               id="description"
               placeholder="The fourth annual Cisco Global Problem Solver Challenge aims to recognize new business ideas ..."
@@ -31,13 +32,7 @@
           </div>
           <div class="form-group">
             <label for="deadline">Deadline</label>
-            <input
-              v-model="deadline"
-              type="date"
-              class="form-control"
-              id="deadline"
-              required
-            />
+            <input v-model="deadline" type="date" class="form-control" id="deadline" required />
           </div>
           <div class="form-group">
             <label for="country">Country</label>
@@ -116,7 +111,7 @@
               required
             />
           </div>
-          <button type="submit" class="btn btn-primary mb-3">Sign up</button>
+          <button type="submit" class="btn btn-primary mb-3">Submit</button>
         </form>
       </div>
     </div>
@@ -138,7 +133,8 @@ export default {
       eligibilities: "",
       process: "",
       url: "",
-      error: ""
+      error: "",
+      sucessful: ""
     };
   },
   created() {
@@ -161,36 +157,32 @@ export default {
         process: this.process,
         url: this.url
       };
-      this.$http.plain
+      this.$http.secured
         .post(
           "/api/v1/articles",
           { article: article },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("csrf")}`
-            }
-          }
+          { headers: "X-CSRF-Token " + localStorage.csrf }
         )
         .then(response => this.createSuccessful(response))
         .catch(error => this.createFailed(error));
     },
     createSuccessful(response) {
-      if (response.data.status != 200) {
+      console.log(response);
+      if (response.data.status != 200 || response.data.status != 201) {
         this.createFailed(response);
         return;
       } else {
-        alert("Article Created!");
+        this.alert("Success!");
       }
     },
     createFailed(error) {
       this.error =
         (error.response && error.response.data && error.response.data.error) ||
         "";
-      alert("Failed To Create Article!");
     },
     checkSignedIn() {
       if (localStorage.signedIn) {
-        this.$router.replace("/articles");
+        this.$router.replace("/article/new");
       } else {
         this.$router.replace("/");
       }

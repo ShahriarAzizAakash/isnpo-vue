@@ -12,5 +12,7 @@ Vue.use(VueAxios, {
 
 new Vue({
   router,
+  securedAxiosInstance,
+  plainAxiosInstance,
   render: h => h(App)
 }).$mount("#app");
