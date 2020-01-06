@@ -32,7 +32,13 @@
           </div>
           <div class="form-group">
             <label for="deadline">Deadline</label>
-            <input v-model="deadline" type="date" class="form-control" id="deadline" required />
+            <input
+              v-model="deadline"
+              type="date"
+              class="form-control"
+              id="deadline"
+              required
+            />
           </div>
           <div class="form-group">
             <label for="country">Country</label>
@@ -161,7 +167,7 @@ export default {
         .post(
           "/api/v1/articles",
           { article: article },
-          { headers: "X-CSRF-Token " + localStorage.csrf }
+          { headers: { "X-CSRF-Token ": "localStorage.csrf" } }
         )
         .then(response => this.createSuccessful(response))
         .catch(error => this.createFailed(error));
