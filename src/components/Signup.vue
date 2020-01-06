@@ -128,8 +128,10 @@ export default {
     checkSignedIn() {
       if (localStorage.signedIn && localStorage.admin) {
         this.$router.replace("/articles/new");
-      } else {
+      } else if (localStorage.signedIn && !localStorage.admin) {
         this.$router.replace("/articles");
+      } else {
+        this.$router.replace("/register");
       }
     }
   }
