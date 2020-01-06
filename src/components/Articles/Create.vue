@@ -167,7 +167,12 @@ export default {
         .post(
           "/api/v1/articles",
           { article: article },
-          { headers: { "X-CSRF-Token ": "localStorage.csrf" } }
+          {
+            headers: {
+              "X-CSRF-Token ": localStorage.csrf,
+              "Content-Type": "application/json"
+            }
+          }
         )
         .then(response => this.createSuccessful(response))
         .catch(error => this.createFailed(error));
