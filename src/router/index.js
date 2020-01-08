@@ -27,7 +27,7 @@ export default new Router({
     {
       path: "/articles",
       name: "Articles",
-      ccomponent: Articles
+      component: Articles
     }
   ]
 });

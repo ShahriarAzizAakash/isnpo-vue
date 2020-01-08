@@ -227,7 +227,11 @@ export default {
     },
     checkSignedIn() {
       if (localStorage.signedIn) {
-        this.$router.replace("/article/new");
+        if (localStorage.admin === localStorage.signedIn) {
+          this.$router.replace("/article/new");
+        } else {
+          this.$router.replace("/articles");
+        }
       } else {
         this.$router.replace("/");
       }
