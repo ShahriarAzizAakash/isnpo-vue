@@ -35,7 +35,7 @@
             </li>
             <li class="nav-item">
               <router-link v-if="isSignedIn" class="nav-link" to="/">
-                <ui-button @click="signOut">Sign out</ui-button>
+                <a @click="signOut">Sign out</a>
               </router-link>
             </li>
           </ul>
